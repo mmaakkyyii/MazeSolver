@@ -202,7 +202,7 @@ int main()
     while(esc==0){
         ShowMaze(&maze_solver);
 
-        maze_solver.adachi.MakeStepMap(goal_pos_x,goal_pos_y,WallMask::UNUSE_WALL_MASK);
+        maze_solver.adachi.MakeStepMap(goal_pos_x,goal_pos_y,WallMask::USE_UNKOWN_WALL_MASK);
         maze_solver.adachi.SeeMap(mouse_pos_x,mouse_pos_y,mouse_dir);
         ShowStep(&maze_solver);
 
@@ -258,12 +258,54 @@ int main()
             goal_pos_x=GOAL_X;
             goal_pos_y=GOAL_Y;
         }else if(c=='s'){
-            maze_solver.adachi.MakeRunPlan(0,0,North,GOAL_X,GOAL_Y);
-            for(int i=0;i<maze_solver.adachi.step_plan_length;i++){
-                std::cout << (int)maze_solver.adachi.step_plan[i];
-                //std::cout << "aaaaaaaaaaaaaaaaaaaaaawaa";
-            }
+            //ShowStep(&maze_solver);
+
+            int step_length=maze_solver.adachi.MakeRunPlan(0,0,North,GOAL_X,GOAL_Y);
+            std::cout << "Enter to start\r\n";
             getch();
+            for(int i=0;i<step_length;i++){
+            //    std::cout << (int)maze_solver.adachi.step_plan[i];
+                switch(maze_solver.adachi.step_plan[i]){
+                    case West:
+                        mouse_dir=West;
+                        if(mouse_pos_x==0){
+                            mouse_pos_x=0;
+                        }else{
+                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x--;
+                        }
+                        break;
+                    case North:
+                        mouse_dir=North;
+                        if(mouse_pos_y==MAZESIZE_Y-1){
+                            mouse_pos_y=MAZESIZE_Y-1;
+                        }else{
+                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y++;
+                        }
+                        break;
+                    case East:
+                        mouse_dir=East;
+                        if(mouse_pos_x==MAZESIZE_X-1){
+                            mouse_pos_x=MAZESIZE_X-1;
+                        }else{
+                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x++;
+                        }
+                        break;
+                    case South:
+                        mouse_dir=South;
+                        if(mouse_pos_y==0){
+                            mouse_pos_y=0;
+                        }else{
+                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y--;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                ShowMaze(&maze_solver);
+                Sleep(100);
+            }
+            
+
 
         }else if(c==0x0d){
 

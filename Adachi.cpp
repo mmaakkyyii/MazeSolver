@@ -95,13 +95,17 @@ void Adachi::InitStepMap(int target_x, int target_y){
             step_map[i_x][i_y]=default_step_value;
         }
     }
-    step_map[target_x][target_y]=0;
+    if(0 < target_x && target_x < MAZESIZE_X && 0 < target_y && target_y < MAZESIZE_Y){
+        step_map[target_x][target_y]=0;
+    }else{
+        step_map[0][0]=0;
+    }
 }
 
 void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
     InitStepMap(target_x,target_y);
 
-    bool update_flag;
+    bool update_flag=true;
     while(update_flag == true){
         update_flag = false;
 
@@ -111,8 +115,9 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
 
                 if(i_y < MAZESIZE_Y -1){
                     //No Wall to the North
-                    if((map[i_x][i_y] & 0b10001000 ) != (0b10001000)){
-                        std::cout <<"";
+                    if(( (map[i_x][i_y] & 0b10001000) == (0b10000000) ) || 
+                       (int)mask*( (map[i_x][i_y] & 0b10000000) == (0b00000000) ) ){
+//                    if((map[i_x][i_y] & 0b10001000) != (0b10001000) ){
                         if(step_map[i_x][i_y+1] == default_step_value){
                             step_map[i_x][i_y+1]=step_map[i_x][i_y]+1;
                             update_flag=true;
@@ -122,7 +127,9 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
 
                 if(i_x < MAZESIZE_X -1){
                     //No Wall to the East
-                    if((map[i_x][i_y] & 0b00010001) != (0b00010001)){
+                    if(( (map[i_x][i_y] & 0b00010001) == (0b00010000) ) ||
+                       (int)mask*( (map[i_x][i_y] & 0b00010000 ) == (0b00000000) ) ){
+//                    if((map[i_x][i_y] & 0b00010001 ) != (0b00010001) ){
                         if(step_map[i_x+1][i_y] == default_step_value){
                             step_map[i_x+1][i_y]=step_map[i_x][i_y]+1;
                             update_flag=true;
@@ -132,7 +139,9 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
 
                 if(i_y > 0){
                     //No Wall to the South
-                    if((map[i_x][i_y] & 0b00100010) != (0b00100010)){
+                    if(( (map[i_x][i_y] & 0b00100010) == (0b00100000) ) ||
+                       (int)mask*( (map[i_x][i_y] & 0b00100000 ) == (0b00000000) ) ){
+//                    if((map[i_x][i_y] & 0b00100010 ) != (0b00100010)){
                         if(step_map[i_x][i_y-1] == default_step_value){
                             step_map[i_x][i_y-1]=step_map[i_x][i_y]+1;
                             update_flag=true;
@@ -142,7 +151,9 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
 
                 if(i_y < MAZESIZE_Y -1){
                     //No Wall to the West
-                    if((map[i_x][i_y] & 0b01000100) != (0b01000100)){
+                    if(( (map[i_x][i_y] & 0b01000100) == (0b01000000) ) ||
+                       (int)mask*( (map[i_x][i_y] & 0b01000000) == (0b00000000) ) ){
+//                    if((map[i_x][i_y] & 0b01000100 ) != (0b01000100)){
                         if(step_map[i_x-1][i_y] == default_step_value){
                             step_map[i_x-1][i_y]=step_map[i_x][i_y]+1;
                             update_flag=true;
@@ -198,14 +209,14 @@ void Adachi::SeeMap(int x, int y, Dirction dir){
     }
 }
 
-void Adachi::MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y){
-    MakeStepMap(target_x, target_y,WallMask::UNUSE_WALL_MASK);
+int Adachi::MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y){
     int x=start_x;
     int y=start_y;
     Dirction dir=start_dir;
     int index=0;
+    MakeStepMap(target_x, target_y,WallMask::UNUSE_UNKOWN_WALL_MASK);
 
-    while(x!=target_x && y!=target_y){
+    while(x!=target_x || y!=target_y){
         dir=GetNextDirection(x,y,dir);
         switch(dir){
             case North:
@@ -229,9 +240,9 @@ void Adachi::MakeRunPlan(int start_x, int start_y, Dirction start_dir, int targe
                 step_plan[index]=East;
                 break;
         }
-//        std::cout << index << "," << x <<"," << y << "," << dir <<"\n";
         index++;
     }
     step_plan_length=index;
+    return step_plan_length;
 
 }

@@ -30,7 +30,7 @@ public:
     void InitStepMap(int target_x, int target_y);
     void MakeStepMap(int target_x, int target_y, WallMask mask);
 
-    void MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y);
+    int MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y);
 
 };
 

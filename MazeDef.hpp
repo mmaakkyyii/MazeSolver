@@ -8,8 +8,8 @@
 #define GOAL_Y (7)
 
 enum class WallMask{
-    USE_WALL_MASK   = 0b00000000,
-    UNUSE_WALL_MASK = 0b11111111
+    USE_UNKOWN_WALL_MASK   = 1,
+    UNUSE_UNKOWN_WALL_MASK = 0
 };
 enum Dirction{
     North,
