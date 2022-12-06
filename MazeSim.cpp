@@ -260,7 +260,7 @@ int main()
         }else if(c=='s'){
             //ShowStep(&maze_solver);
 
-            int step_length=maze_solver.adachi.MakeRunPlan(0,0,North,GOAL_X,GOAL_Y);
+            int step_length=maze_solver.adachi.MakePathPlan(0,0,North,GOAL_X,GOAL_Y);
             std::cout << "Enter to start\r\n";
             getch();
             for(int i=0;i<step_length;i++){
@@ -304,8 +304,11 @@ int main()
                 ShowMaze(&maze_solver);
                 Sleep(100);
             }
-            
-
+            maze_solver.adachi.MakeRunPlan(step_length, North);
+            for(int i=0;i<step_length;i++){
+                std::cout << maze_solver.adachi.run_plan[i];
+            }
+            getch();
 
         }else if(c==0x0d){
 

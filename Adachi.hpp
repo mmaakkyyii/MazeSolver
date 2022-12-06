@@ -13,6 +13,7 @@ public:
     int step_plan_length;
     RunPlan run_plan[plan_max_num];
     RunPattern fast_pattern[plan_max_num];
+    int is_run_plan=false;
 
     Adachi();
     void Update();
@@ -30,8 +31,8 @@ public:
     void InitStepMap(int target_x, int target_y);
     void MakeStepMap(int target_x, int target_y, WallMask mask);
 
-    int MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y);
-
+    int MakePathPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y);
+    int MakeRunPlan(int path_length, Dirction initial_dir);
 };
 
 #endif //_ADACHI_HPP_

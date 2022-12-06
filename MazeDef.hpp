@@ -12,16 +12,17 @@ enum class WallMask{
     UNUSE_UNKOWN_WALL_MASK = 0
 };
 enum Dirction{
-    North,
-    West,
-    South,
-    East
+    North=0,
+    West=1,
+    South=2,
+    East=3
 };
 
 enum RunPlan{
     Forward,
     TurnRight,
-    TurnLeft
+    TurnLeft,
+    Turn
 };
 
 enum RunMode{

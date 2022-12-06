@@ -209,7 +209,7 @@ void Adachi::SeeMap(int x, int y, Dirction dir){
     }
 }
 
-int Adachi::MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y){
+int Adachi::MakePathPlan(int start_x, int start_y, Dirction start_dir, int target_x, int target_y){
     int x=start_x;
     int y=start_y;
     Dirction dir=start_dir;
@@ -243,6 +243,27 @@ int Adachi::MakeRunPlan(int start_x, int start_y, Dirction start_dir, int target
         index++;
     }
     step_plan_length=index;
+    is_run_plan=true;
     return step_plan_length;
 
 }
+
+int Adachi::MakeRunPlan(int path_length, Dirction initial_dir){
+    if(is_run_plan==false)return -1;
+    Dirction pre_dir=initial_dir;
+    for(int index=0;index<path_length;index++){
+        switch((step_plan[index]-pre_dir)%4){
+            case 0:
+                run_plan[index]=Forward;
+            case 1:
+                run_plan[index]=TurnRight;
+            case 2:
+                run_plan[index]=TurnLeft;
+            case 3:
+                run_plan[index]=Turn;
+        }
+        pre_dir=step_plan[index];
+    }
+    return 1;
+}
+
