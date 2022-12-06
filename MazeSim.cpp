@@ -302,11 +302,20 @@ int main()
                         break;
                 }
                 ShowMaze(&maze_solver);
-                Sleep(100);
+                Sleep(50);
             }
             maze_solver.adachi.MakeRunPlan(step_length, North);
             for(int i=0;i<step_length;i++){
-                std::cout << maze_solver.adachi.run_plan[i];
+                switch(maze_solver.adachi.run_plan[i]){
+                case Forward:
+                    std::cout << "0,";
+                case TurnRight:
+                    std::cout << "-90,";
+                case TurnLeft:
+                    std::cout << "90,";
+                case Turn:
+                    std::cout << "180,";
+                }
             }
             getch();
 

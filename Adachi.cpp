@@ -252,7 +252,7 @@ int Adachi::MakeRunPlan(int path_length, Dirction initial_dir){
     if(is_run_plan==false)return -1;
     Dirction pre_dir=initial_dir;
     for(int index=0;index<path_length;index++){
-        switch((step_plan[index]-pre_dir)%4){
+        switch(((int)step_plan[index])){
             case 0:
                 run_plan[index]=Forward;
             case 1:
