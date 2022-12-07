@@ -71,20 +71,23 @@ Dirction Adachi::GetNextDirection(int x, int y, Dirction dir){
 }
 
 
-void Adachi::InitMaze(){
+void Adachi::InitMaze(InitialWall inital_wall){
+    int wall_mask=0b00000000;
+    if(inital_wall==InitialWall::KNOWN)wall_mask=0b11110000;
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
         for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
-            map[i_x][i_y] &=0b00001111;
+            map[i_x][i_y] &=(0b00001111);
+            map[i_x][i_y] |=(wall_mask);
         }
     }
 
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
-        SetMap(i_x,0,(0b00100000|map[i_x][0]));
-        SetMap(i_x,MAZESIZE_Y-1,(0b10000000|map[i_x][MAZESIZE_Y-1]));
+        SetMap(i_x,0,(0b00100000|map[i_x][0]|wall_mask));
+        SetMap(i_x,MAZESIZE_Y-1,(0b10000000|map[i_x][MAZESIZE_Y-1]|wall_mask));
     }
     for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
-        SetMap(0,i_y,(0b01000000|map[0][i_y]));
-        SetMap(MAZESIZE_X-1,i_y,(0b00010000|map[MAZESIZE_X-1][i_y]));
+        SetMap(0,i_y,(0b01000000|map[0][i_y]|wall_mask));
+        SetMap(MAZESIZE_X-1,i_y,(0b00010000|map[MAZESIZE_X-1][i_y]|wall_mask));
     }
     map[0][0]=0b11110111;   
 }
@@ -252,15 +255,19 @@ int Adachi::MakeRunPlan(int path_length, Dirction initial_dir){
     if(is_run_plan==false)return -1;
     Dirction pre_dir=initial_dir;
     for(int index=0;index<path_length;index++){
-        switch(((int)step_plan[index])){
+        switch(((int)step_plan[index]-(int)pre_dir+4)%4){
             case 0:
                 run_plan[index]=Forward;
+                break;
             case 1:
                 run_plan[index]=TurnRight;
+                break;
             case 2:
-                run_plan[index]=TurnLeft;
-            case 3:
                 run_plan[index]=Turn;
+                break;
+            case 3:
+                run_plan[index]=TurnLeft;
+                break;
         }
         pre_dir=step_plan[index];
     }

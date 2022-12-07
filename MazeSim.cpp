@@ -194,7 +194,7 @@ int main()
     MazeSolver maze_solver;
     maze_solver.Init();
     maze_solver.adachi.SetMapArray(map_data);
-    maze_solver.adachi.InitMaze();
+    maze_solver.adachi.InitMaze(InitialWall::KNOWN);
 
     maze_solver.adachi.SeeMap(mouse_pos_x,mouse_pos_y,mouse_dir);
 

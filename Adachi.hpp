@@ -27,7 +27,7 @@ public:
     int GetMapData(int x, int y){return map[x][y];}
     int GetStepData(int x, int y){return step_map[x][y];}
 
-    void InitMaze();
+    void InitMaze(InitialWall inital_wall);
     void InitStepMap(int target_x, int target_y);
     void MakeStepMap(int target_x, int target_y, WallMask mask);
 
