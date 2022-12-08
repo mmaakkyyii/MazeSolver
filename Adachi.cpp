@@ -255,19 +255,32 @@ int Adachi::MakeRunPlan(int path_length, Dirction initial_dir){
     if(is_run_plan==false)return -1;
     Dirction pre_dir=initial_dir;
     for(int index=0;index<path_length;index++){
-        switch(((int)step_plan[index]-(int)pre_dir+4)%4){
+        switch( ((int)step_plan[index] - (int)pre_dir )){
+            case -3:
+                run_plan[index]=TurnLeft;
+                break;
+            case -2:
+                run_plan[index]=Turn;
+                break;
+            case -1:
+                run_plan[index]=TurnRight;
+                break;
             case 0:
                 run_plan[index]=Forward;
                 break;
             case 1:
-                run_plan[index]=TurnRight;
+                run_plan[index]=TurnLeft;
                 break;
             case 2:
                 run_plan[index]=Turn;
                 break;
             case 3:
-                run_plan[index]=TurnLeft;
+                run_plan[index]=TurnRight;
                 break;
+            default:
+                run_plan[index]=Turn;
+                break;
+
         }
         pre_dir=step_plan[index];
     }
