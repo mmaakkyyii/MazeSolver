@@ -20,14 +20,15 @@ public:
     Dirction GetNextDirection(int x, int y, Dirction dir);
 
     void SetMapArray(int data[MAZESIZE_X][MAZESIZE_Y]);
-    void SeeMap(int x, int y, Dirction dir);
+    void SeeMap(int x, int y,int wall_data_4bit, Dirction dir);
     void SetMap(int x, int y, int num){map[x][y]=num;}
     void SetStepMap(int x, int y, int step){step_map[x][y]=step;}
+    int CalBit(bool bit, int pos){return bit<<pos;}
 
     int GetMapData(int x, int y){return map[x][y];}
     int GetStepData(int x, int y){return step_map[x][y];}
 
-    void InitMaze(InitialWall inital_wall);
+    void InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]);
     void InitStepMap(int target_x, int target_y);
     void MakeStepMap(int target_x, int target_y, WallMask mask);
 

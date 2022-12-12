@@ -71,23 +71,27 @@ Dirction Adachi::GetNextDirection(int x, int y, Dirction dir){
 }
 
 
-void Adachi::InitMaze(InitialWall inital_wall){
+void Adachi::InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]){
     int wall_mask=0b00000000;
     if(inital_wall==InitialWall::KNOWN)wall_mask=0b11110000;
+
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
         for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
-            map[i_x][i_y] &=(0b00001111);
-            map[i_x][i_y] |=(wall_mask);
+            map[i_x][i_y] |=(wall_mask) | data[i_x][i_y];
         }
     }
 
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
-        SetMap(i_x,0,(0b00100000|map[i_x][0]|wall_mask));
-        SetMap(i_x,MAZESIZE_Y-1,(0b10000000|map[i_x][MAZESIZE_Y-1]|wall_mask));
+        map[i_x][0]            |= 0b00100010;
+        map[i_x][MAZESIZE_Y-1] |= 0b10001000;
+        // SetMap(i_x,0,(0b00100000|map[i_x][0]|wall_mask));
+        // SetMap(i_x,MAZESIZE_Y-1,(0b10000000|map[i_x][MAZESIZE_Y-1]|wall_mask));
     }
     for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
-        SetMap(0,i_y,(0b01000000|map[0][i_y]|wall_mask));
-        SetMap(MAZESIZE_X-1,i_y,(0b00010000|map[MAZESIZE_X-1][i_y]|wall_mask));
+        map[0][i_y]            |= 0b01000100;
+        map[MAZESIZE_X-1][i_y] |= 0b00010001;
+        // SetMap(0,i_y,(0b01000000|map[0][i_y]|wall_mask));
+        // SetMap(MAZESIZE_X-1,i_y,(0b00010000|map[MAZESIZE_X-1][i_y]|wall_mask));
     }
     map[0][0]=0b11110111;   
 }
@@ -178,36 +182,51 @@ void Adachi::SetMapArray(int data[MAZESIZE_X][MAZESIZE_Y]){
     }
 }
 
-void Adachi::SeeMap(int x, int y, Dirction dir){
+void Adachi::SeeMap(int x, int y, int wall_data_4bit , Dirction dir){
+    wall_data_4bit &= 0b00001111;
     switch(dir){
         case North:
-            if(x>0)map[x-1][y]|=0b00010000;
-            if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
-            //if(y>0)map[x][y-1]|=0b10000000;
-            if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
-            map[x][y]|=0b11010000;
+            if(x>0)            map[x-1][y] |=0b00010000 | (((wall_data_4bit & 0b0100) == 0b0100 )<<0);
+            if(x<MAZESIZE_X-1) map[x+1][y] |=0b01000000 | (((wall_data_4bit & 0b0001) == 0b0001 )<<2);
+            if(y>0)            map[x][y-1] |=0b10000000 | (((wall_data_4bit & 0b0010) == 0b0010 )<<3);
+            if(y<MAZESIZE_Y-1) map[x][y+1] |=0b00100000 | (((wall_data_4bit & 0b1000) == 0b1000 )<<1);
+            map[x][y]|=0b11010000 | (wall_data_4bit & 0b1101);
             break;
         case West:
-            if(x>0)map[x-1][y]|=0b00010000;
+            if(x>0)            map[x-1][y] |=0b00010000 | (((wall_data_4bit & 0b0100) == 0b0100 )<<0);
+            if(x<MAZESIZE_X-1) map[x+1][y] |=0b01000000 | (((wall_data_4bit & 0b0001) == 0b0001 )<<2);
+            if(y>0)            map[x][y-1] |=0b10000000 | (((wall_data_4bit & 0b0010) == 0b0010 )<<3);
+            if(y<MAZESIZE_Y-1) map[x][y+1] |=0b00100000 | (((wall_data_4bit & 0b1000) == 0b1000 )<<1);
+//            if(x>0)map[x-1][y]|=0b00010000;
             //if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
-            if(y>0)map[x][y-1]|=0b10000000;
-            if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
+//            if(y>0)map[x][y-1]|=0b10000000;
+//            if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
 
-            map[x][y]|=0b11100000;
+            map[x][y]|=0b11100000 | (wall_data_4bit & 0b1110);
             break;
         case South:
-            if(x>0)map[x-1][y]|=0b00010000;
-            if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
-            if(y>0)map[x][y-1]|=0b10000000;
+            if(x>0)            map[x-1][y] |=0b00010000 | (((wall_data_4bit & 0b0100) == 0b0100 )<<0);
+            if(x<MAZESIZE_X-1) map[x+1][y] |=0b01000000 | (((wall_data_4bit & 0b0001) == 0b0001 )<<2);
+            if(y>0)            map[x][y-1] |=0b10000000 | (((wall_data_4bit & 0b0010) == 0b0010 )<<3);
+            if(y<MAZESIZE_Y-1) map[x][y+1] |=0b00100000 | (((wall_data_4bit & 0b1000) == 0b1000 )<<1);
+
+//            if(x>0)map[x-1][y]|=0b00010000;
+//            if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
+//            if(y>0)map[x][y-1]|=0b10000000;
             //if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
-            map[x][y]|=0b01110000;
+            map[x][y]|=0b01110000 | (wall_data_4bit & 0b01101);
             break;
         case East:
+            if(x>0)            map[x-1][y] |=0b00010000 | (((wall_data_4bit & 0b0100) == 0b0100 )<<0);
+            if(x<MAZESIZE_X-1) map[x+1][y] |=0b01000000 | (((wall_data_4bit & 0b0001) == 0b0001 )<<2);
+            if(y>0)            map[x][y-1] |=0b10000000 | (((wall_data_4bit & 0b0010) == 0b0010 )<<3);
+            if(y<MAZESIZE_Y-1) map[x][y+1] |=0b00100000 | (((wall_data_4bit & 0b1000) == 0b1000 )<<1);
+
             //if(x>0)map[x-1][y]|=0b00010000;
-            if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
-            if(y>0)map[x][y-1]|=0b10000000;
-            if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
-            map[x][y]|=0b10110000;
+//            if(x<MAZESIZE_X-1)map[x+1][y]|=0b01000000;
+//            if(y>0)map[x][y-1]|=0b10000000;
+//            if(y<MAZESIZE_Y-1)map[x][y+1]|=0b00100000;
+            map[x][y]|=0b10110000 | (wall_data_4bit & 0b1011);
             break;
     }
 }
