@@ -84,14 +84,10 @@ void Adachi::InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]){
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
         map[i_x][0]            |= 0b00100010;
         map[i_x][MAZESIZE_Y-1] |= 0b10001000;
-        // SetMap(i_x,0,(0b00100000|map[i_x][0]|wall_mask));
-        // SetMap(i_x,MAZESIZE_Y-1,(0b10000000|map[i_x][MAZESIZE_Y-1]|wall_mask));
     }
     for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
         map[0][i_y]            |= 0b01000100;
         map[MAZESIZE_X-1][i_y] |= 0b00010001;
-        // SetMap(0,i_y,(0b01000000|map[0][i_y]|wall_mask));
-        // SetMap(MAZESIZE_X-1,i_y,(0b00010000|map[MAZESIZE_X-1][i_y]|wall_mask));
     }
     map[0][0]=0b11110111;   
 }
@@ -182,7 +178,7 @@ void Adachi::SetMapArray(int data[MAZESIZE_X][MAZESIZE_Y]){
     }
 }
 
-void Adachi::SeeMap(int x, int y, int wall_data_4bit , Dirction dir){
+void Adachi::SetMap(int x, int y, int wall_data_4bit , Dirction dir){
     wall_data_4bit &= 0b00001111;
     switch(dir){
         case North:

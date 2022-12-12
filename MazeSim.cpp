@@ -195,14 +195,14 @@ int main()
     //maze_solver.adachi.SetMapArray(map_data);
     maze_solver.adachi.InitMaze(InitialWall::UNKNOWN,map_data);
 
-    maze_solver.adachi.SeeMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
+    maze_solver.adachi.SetMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
 
     int esc=0;
     while(esc==0){
         ShowMaze(&maze_solver);
 
         maze_solver.adachi.MakeStepMap(goal_pos_x,goal_pos_y,WallMask::USE_UNKOWN_WALL_MASK);
-        maze_solver.adachi.SeeMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
+        maze_solver.adachi.SetMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
         ShowStep(&maze_solver);
 
         int c=getch();
@@ -245,7 +245,7 @@ int main()
                     esc=1;
                     break;
             }
-            maze_solver.adachi.SeeMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
+            maze_solver.adachi.SetMap(mouse_pos_x,mouse_pos_y,map_data[mouse_pos_x][mouse_pos_y],mouse_dir);
 
         }else if(c=='q'){
             mouse_dir= Rotate90(mouse_dir);
