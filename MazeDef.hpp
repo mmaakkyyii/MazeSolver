@@ -1,19 +1,21 @@
 #ifndef _MAZE_DEF_
 #define _MAZE_DEF_
 
+#include "bin.hpp"
+
 #define MAZESIZE_X (16)
 #define MAZESIZE_Y (16)
 
 #define GOAL_X (7)
 #define GOAL_Y (7)
 
-enum class InitialWall{
-    KNOWN   = 0b11110000,
-    UNKNOWN = 0b00000000
+enum InitialWall{
+    KNOWN,
+    UNKNOWN
 };
 
 
-enum class WallMask{
+enum WallMask{
     USE_UNKOWN_WALL_MASK   = 1,
     UNUSE_UNKOWN_WALL_MASK = 0
 };

@@ -11,7 +11,7 @@
 #include "Adachi.hpp"
 #include "MazeSolver.hpp"
 
-//map=0b00000000
+//map=B00000000
 //map|north known|West known|South known|East known|north wall|West wall|South wall|East wall|
 
 
@@ -43,26 +43,26 @@ Dirction Rotate270(Dirction now){
 int is_wall(Dirction dir,int map_val){
     switch(dir){
         case North:
-            if((map_val & 0b10000000)>>7){
-                if((map_val & 0b1000)>>3)return 1;
+            if((map_val & B10000000)>>7){
+                if((map_val & B1000)>>3)return 1;
                 return 0;
             }else return -1;
             break;
         case West:
-            if((map_val & 0b01000000)>>6){
-                if((map_val & 0b0100)>>2)return 1;
+            if((map_val & B01000000)>>6){
+                if((map_val & B0100)>>2)return 1;
                 return 0;
             }else return -1;
             break;
         case South:
-            if((map_val & 0b00100000)>>5){
-                if((map_val & 0b0010)>>1)return 1;
+            if((map_val & B00100000)>>5){
+                if((map_val & B0010)>>1)return 1;
                 return 0;
             }else return -1;
             break;
         case East:
-            if((map_val & 0b00010000)>>4){
-                if((map_val & 0b0001)>>0)return 1;
+            if((map_val & B00010000)>>4){
+                if((map_val & B0001)>>0)return 1;
                 return 0;
             }else return -1;
             break;
@@ -77,22 +77,22 @@ Dirction mouse_dir=North;
 
 int map_data[][16]=
 {
-{0b0111,0b0100,0b1100,0b1110,0b1110,0b1110,0b0110,0b0101,0b0101,0b0101,0b1100,0b0110,0b0101,0b0100,0b0101,0b1100},
-{0b0110,0b1001,0b0010,0b0000,0b0000,0b0000,0b1000,0b0111,0b0100,0b0101,0b1001,0b1010,0b0110,0b0001,0b1100,0b1010},
-{0b0011,0b1100,0b1010,0b1011,0b1011,0b1011,0b0011,0b1100,0b0011,0b0100,0b0101,0b1001,0b1010,0b0110,0b1001,0b1010},
-{0b0110,0b1001,0b0011,0b0101,0b0101,0b0101,0b1100,0b0011,0b1100,0b1011,0b0110,0b1100,0b1010,0b0011,0b1100,0b1010},
-{0b0011,0b1100,0b0110,0b0101,0b0101,0b0101,0b0001,0b1101,0b0011,0b0101,0b1001,0b0011,0b1001,0b0110,0b1001,0b1010},
-{0b0110,0b0001,0b1000,0b0111,0b0100,0b0100,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0001,0b1100,0b1010},
-{0b1010,0b1110,0b0010,0b1100,0b1010,0b1010,0b0110,0b0100,0b1101,0b0111,0b0100,0b0101,0b0100,0b1101,0b1010,0b1010},
-{0b1010,0b0010,0b1001,0b1010,0b1010,0b1010,0b1010,0b0010,0b1100,0b0110,0b1001,0b0110,0b0001,0b1100,0b1010,0b1010},
-{0b1010,0b1010,0b0110,0b1001,0b1010,0b1010,0b1010,0b0011,0b1001,0b0011,0b1100,0b0011,0b0100,0b1001,0b1010,0b1010},
-{0b1010,0b1010,0b0011,0b1100,0b1010,0b1010,0b1010,0b0111,0b0100,0b1100,0b1010,0b0110,0b0001,0b1100,0b1010,0b1010},
-{0b1010,0b1010,0b0110,0b0001,0b1000,0b1010,0b0010,0b1100,0b1010,0b0010,0b1001,0b0011,0b0100,0b1001,0b1010,0b1010},
-{0b0010,0b0000,0b0001,0b0100,0b1001,0b0010,0b1001,0b0011,0b1000,0b1010,0b0110,0b1100,0b0011,0b1100,0b1010,0b1010},
-{0b1010,0b1010,0b0110,0b1001,0b0111,0b0001,0b0101,0b0101,0b0001,0b1000,0b1010,0b0011,0b1100,0b0011,0b1000,0b1010},
-{0b0011,0b0001,0b1001,0b0110,0b1100,0b0110,0b0101,0b0101,0b0101,0b1001,0b0011,0b1100,0b0011,0b1100,0b1010,0b1010},
-{0b0110,0b0101,0b0101,0b1001,0b0011,0b0001,0b0101,0b0101,0b0101,0b0101,0b0101,0b0001,0b1101,0b0011,0b1000,0b1010},
-{0b0011,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0101,0b0001,0b1001}
+{B0111,B0100,B1100,B1110,B1110,B1110,B0110,B0101,B0101,B0101,B1100,B0110,B0101,B0100,B0101,B1100},
+{B0110,B1001,B0010,B0000,B0000,B0000,B1000,B0111,B0100,B0101,B1001,B1010,B0110,B0001,B1100,B1010},
+{B0011,B1100,B1010,B1011,B1011,B1011,B0011,B1100,B0011,B0100,B0101,B1001,B1010,B0110,B1001,B1010},
+{B0110,B1001,B0011,B0101,B0101,B0101,B1100,B0011,B1100,B1011,B0110,B1100,B1010,B0011,B1100,B1010},
+{B0011,B1100,B0110,B0101,B0101,B0101,B0001,B1101,B0011,B0101,B1001,B0011,B1001,B0110,B1001,B1010},
+{B0110,B0001,B1000,B0111,B0100,B0100,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0001,B1100,B1010},
+{B1010,B1110,B0010,B1100,B1010,B1010,B0110,B0100,B1101,B0111,B0100,B0101,B0100,B1101,B1010,B1010},
+{B1010,B0010,B1001,B1010,B1010,B1010,B1010,B0010,B1100,B0110,B1001,B0110,B0001,B1100,B1010,B1010},
+{B1010,B1010,B0110,B1001,B1010,B1010,B1010,B0011,B1001,B0011,B1100,B0011,B0100,B1001,B1010,B1010},
+{B1010,B1010,B0011,B1100,B1010,B1010,B1010,B0111,B0100,B1100,B1010,B0110,B0001,B1100,B1010,B1010},
+{B1010,B1010,B0110,B0001,B1000,B1010,B0010,B1100,B1010,B0010,B1001,B0011,B0100,B1001,B1010,B1010},
+{B0010,B0000,B0001,B0100,B1001,B0010,B1001,B0011,B1000,B1010,B0110,B1100,B0011,B1100,B1010,B1010},
+{B1010,B1010,B0110,B1001,B0111,B0001,B0101,B0101,B0001,B1000,B1010,B0011,B1100,B0011,B1000,B1010},
+{B0011,B0001,B1001,B0110,B1100,B0110,B0101,B0101,B0101,B1001,B0011,B1100,B0011,B1100,B1010,B1010},
+{B0110,B0101,B0101,B1001,B0011,B0001,B0101,B0101,B0101,B0101,B0101,B0001,B1101,B0011,B1000,B1010},
+{B0011,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0101,B0001,B1001}
 };
 
 void ShowMaze(MazeSolver* ms){
@@ -214,7 +214,7 @@ int main()
                     if(mouse_pos_x==0){
                         mouse_pos_x=0;
                     }else{
-                        if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x--;
+                        if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_x--;
                     }
                     break;
                 case 0x48:
@@ -222,7 +222,7 @@ int main()
                     if(mouse_pos_y==MAZESIZE_Y-1){
                         mouse_pos_y=MAZESIZE_Y-1;
                     }else{
-                        if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y++;
+                        if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_y++;
                     }
                     break;
                 case 0x4d:
@@ -230,7 +230,7 @@ int main()
                     if(mouse_pos_x==MAZESIZE_X-1){
                         mouse_pos_x=MAZESIZE_X-1;
                     }else{
-                        if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x++;
+                        if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_x++;
                     }
                     break;
                 case 0x50:
@@ -238,7 +238,7 @@ int main()
                     if(mouse_pos_y==0){
                         mouse_pos_y=0;
                     }else{
-                        if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y--;
+                        if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_y--;
                     }
                     break;
                 default:
@@ -271,7 +271,7 @@ int main()
                         if(mouse_pos_x==0){
                             mouse_pos_x=0;
                         }else{
-                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x--;
+                            if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_x--;
                         }
                         break;
                     case North:
@@ -279,7 +279,7 @@ int main()
                         if(mouse_pos_y==MAZESIZE_Y-1){
                             mouse_pos_y=MAZESIZE_Y-1;
                         }else{
-                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y++;
+                            if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_y++;
                         }
                         break;
                     case East:
@@ -287,7 +287,7 @@ int main()
                         if(mouse_pos_x==MAZESIZE_X-1){
                             mouse_pos_x=MAZESIZE_X-1;
                         }else{
-                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_x++;
+                            if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_x++;
                         }
                         break;
                     case South:
@@ -295,7 +295,7 @@ int main()
                         if(mouse_pos_y==0){
                             mouse_pos_y=0;
                         }else{
-                            if(is_wall(mouse_dir,maze_solver.adachi.map[mouse_pos_x][mouse_pos_y])==0)mouse_pos_y--;
+                            if(is_wall(mouse_dir,maze_solver.adachi.GetMapData(mouse_pos_x,mouse_pos_y))==0)mouse_pos_y--;
                         }
                         break;
                     default:

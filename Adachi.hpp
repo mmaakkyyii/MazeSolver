@@ -6,14 +6,16 @@ class Adachi{
 private:
     static const int default_step_value=255;
     static const int plan_max_num=256;
+    int is_run_plan;
+    int map[MAZESIZE_X][MAZESIZE_Y];
+    int step_map[MAZESIZE_X][MAZESIZE_Y];
+
+    int GetMinArrayIndex(int* array, int length);    
 public:
-    int map[MAZESIZE_X][MAZESIZE_Y]={0};
-    int step_map[MAZESIZE_X][MAZESIZE_Y]={0};
     Dirction step_plan[plan_max_num];
     int step_plan_length;
     RunPlan run_plan[plan_max_num];
     RunPattern fast_pattern[plan_max_num];
-    int is_run_plan=false;
 
     Adachi();
     void Update();
