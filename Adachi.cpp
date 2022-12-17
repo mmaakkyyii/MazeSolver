@@ -226,7 +226,7 @@ void Adachi::SetMap(int x, int y, int wall_data_4bit , Dirction dir){
 //            if(x<MAZESIZE_X-1)map[x+1][y]|=B01000000;
 //            if(y>0)map[x][y-1]|=B10000000;
             //if(y<MAZESIZE_Y-1)map[x][y+1]|=B00100000;
-            map[x][y]|=B01110000 | (wall_data_4bit & B1101);
+            map[x][y]|=B01110000 | (wall_data_4bit & B0111);
             break;
         case East:
             if(x>0)            map[x-1][y] |=B00010000 | (((wall_data_4bit & B0100) == B0100 )<<0);
