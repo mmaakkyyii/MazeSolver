@@ -1,4 +1,5 @@
 #include "Adachi.hpp"
+#include "debug.hpp"
 
 Adachi::Adachi(){
     is_run_plan=false;
@@ -105,7 +106,7 @@ void Adachi::InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]){
         map[0][i_y]            |= B01000100;
         map[MAZESIZE_X-1][i_y] |= B00010001;
     }
-    map[0][0]=B11110111;   
+    map[0][0]=B00000000;   
 }
 
 void Adachi::InitStepMap(int target_x, int target_y){
@@ -168,7 +169,7 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
                     }
                 }
 
-                if(i_y < MAZESIZE_Y -1){
+                if(i_x > 0){
                     //No Wall to the West
                     if(( (map[i_x][i_y] & B01000100) == (B01000000) ) ||
                        (int)mask*( (map[i_x][i_y] & B01000000) == (B00000000) ) ){
@@ -251,6 +252,8 @@ int Adachi::MakePathPlan(int start_x, int start_y, Dirction start_dir, int targe
     MakeStepMap(target_x, target_y,UNUSE_UNKOWN_WALL_MASK);
 
     while(x!=target_x || y!=target_y){
+//	SCI_printf("(%d,%d)\r\n",x,y);
+
         dir=GetNextDirection(x,y,dir);
         switch(dir){
             case North:
