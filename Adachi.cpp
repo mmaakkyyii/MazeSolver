@@ -106,7 +106,7 @@ void Adachi::InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]){
         map[0][i_y]            |= B01000100;
         map[MAZESIZE_X-1][i_y] |= B00010001;
     }
-    map[0][0]=B00000000;   
+    map[0][0]=B11110111;   
 }
 
 void Adachi::InitStepMap(int target_x, int target_y){

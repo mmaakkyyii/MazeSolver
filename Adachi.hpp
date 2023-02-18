@@ -5,7 +5,7 @@
 class Adachi{
 private:
     static const int default_step_value=255;
-    static const int plan_max_num=1024;
+    static const int plan_max_num=255;
     int is_run_plan;
     int map[MAZESIZE_X][MAZESIZE_Y];
     int step_map[MAZESIZE_X][MAZESIZE_Y];
