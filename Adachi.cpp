@@ -1,5 +1,5 @@
 #include "Adachi.hpp"
-#include "debug.hpp"
+//#include "debug.hpp"
 
 Adachi::Adachi(){
     is_run_plan=false;
