@@ -94,7 +94,7 @@ void Adachi::InitMaze(InitialWall inital_wall,int data[MAZESIZE_X][MAZESIZE_Y]){
 
     for(int i_x=0;i_x<MAZESIZE_X;i_x++){
         for(int i_y=0;i_y<MAZESIZE_Y;i_y++){
-            map[i_x][i_y] |=(wall_mask) | data[i_x][i_y];
+            map[i_x][i_y] =(wall_mask) | data[i_x][i_y];
         }
     }
 
@@ -190,7 +190,7 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
 void Adachi::SetMapArray(int data[MAZESIZE_X][MAZESIZE_Y]){
     for(int x=0;x<MAZESIZE_X;x++){
         for(int y=0;y<MAZESIZE_Y;y++){
-            map[x][y]=data[y][x];
+            map[x][y]=data[x][y];
         }
     }
 }

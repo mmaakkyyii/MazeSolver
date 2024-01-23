@@ -7,11 +7,11 @@ private:
     static const int default_step_value=255;
     static const int plan_max_num=255;
     int is_run_plan;
-    int map[MAZESIZE_X][MAZESIZE_Y];
     int step_map[MAZESIZE_X][MAZESIZE_Y];
 
     int GetMinArrayIndex(int* array, int length);    
 public:
+    int map[MAZESIZE_X][MAZESIZE_Y];
     Dirction step_plan[plan_max_num];
     int step_plan_length;
     RunPlan run_plan[plan_max_num];
