@@ -6,8 +6,8 @@
 #define MAZESIZE_X (16)
 #define MAZESIZE_Y (16)
 
-#define GOAL_X (6)
-#define GOAL_Y (9)
+#define GOAL_X (3)
+#define GOAL_Y (3)
 
 enum InitialWall{
     KNOWN,

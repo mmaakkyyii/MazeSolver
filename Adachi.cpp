@@ -121,14 +121,96 @@ void Adachi::InitStepMap(int target_x, int target_y){
         step_map[0][0]=0;
     }
 }
+#include <iostream>
+#include <cstring>
 
 void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
     InitStepMap(target_x,target_y);
 
     bool update_flag=true;
-    while(update_flag == true){
-        update_flag = false;
+    int last_update_num=1;
+    int update_index=last_update_num-1;
+    int update_x[MAZESIZE_X*MAZESIZE_Y]={0};
+    int update_y[MAZESIZE_X*MAZESIZE_Y]={0};
+    int update_buff_x[MAZESIZE_X*MAZESIZE_Y]={0};
+    int update_buff_y[MAZESIZE_X*MAZESIZE_Y]={0};
+	update_buff_x[target_x]=0;
+	update_buff_y[target_y]=0;
+    update_x[0]=target_x;
+    update_y[0]=target_y;
 
+    memcpy(update_x,update_buff_x,MAZESIZE_X*MAZESIZE_Y);
+	memcpy(update_y,update_buff_y,MAZESIZE_X*MAZESIZE_Y);
+	update_buff_x[0]=target_x;
+	update_buff_y[0]=target_y;
+	update_index=0;
+//	std::cout << "start\n";
+    while(update_flag == true){
+    	memcpy(update_x,update_buff_x,MAZESIZE_X*MAZESIZE_Y);
+    	memcpy(update_y,update_buff_y,MAZESIZE_X*MAZESIZE_Y);
+    	update_flag = false;
+    	update_index=0;
+///        std::cout << "update_index=" << update_index<<"\n";
+        for(int i=0;i<last_update_num;i++){
+//            std::cout << "i=" << i<<"\n";
+//            std::cout << "(x,y)=("<<update_x[i] <<"," << update_y[i]<<")="<< step_map[update_x[i]][update_y[i]]<<"\n";
+            //No Wall to the North
+            if(( (map[update_x[i]][update_y[i]] & B10001000) == (B10000000) ) ||
+               (int)mask*( (map[update_x[i]][update_y[i]] & B10000000) == (B00000000) ) ){
+                if(step_map[update_x[i]][update_y[i]+1] == default_step_value){
+                    step_map[update_x[i]][update_y[i]+1]=step_map[update_x[i]][update_y[i]]+1;
+                    update_flag=true;
+//                    std::cout << "update_index:" << update_index<< "(x,y)=("<<update_x[i]<<","<<update_y[i]+1<<")="<< step_map[update_x[i]][update_y[i]]<<"\n";
+                    update_buff_x[update_index]=update_x[i];
+                    update_buff_y[update_index]=update_y[i]+1;
+                    update_index++;
+                }
+            }
+
+            //No Wall to the East
+            if(( (map[update_x[i]][update_y[i]] & B00010001) == (B00010000) ) ||
+               (int)mask*( (map[update_x[i]][update_y[i]] & B00010000 ) == (B00000000) ) ){
+                if(step_map[update_x[i]+1][update_y[i]] == default_step_value){
+                    step_map[update_x[i]+1][update_y[i]]=step_map[update_x[i]][update_y[i]]+1;
+                    update_flag=true;
+//                    std::cout << "update_index:" << update_index<< "(x,y)=("<<update_x[i]+1<<","<<update_y[i]<<")="<< step_map[update_x[i]][update_y[i]]<<"\n";
+                    update_buff_x[update_index]=update_x[i]+1;
+                    update_buff_y[update_index]=update_y[i];
+                    update_index++;
+                }
+            }
+
+            //No Wall to the South
+            if(( (map[update_x[i]][update_y[i]] & B00100010) == (B00100000) ) ||
+               (int)mask*( (map[update_x[i]][update_y[i]] & B00100000 ) == (B00000000) ) ){
+                if(step_map[update_x[i]][update_y[i]-1] == default_step_value){
+                    step_map[update_x[i]][update_y[i]-1]=step_map[update_x[i]][update_y[i]]+1;
+                    update_flag=true;
+//                    std::cout << "update_index:" << update_index<< "(x,y)=("<<update_x[i]<<","<<update_y[i]-1<<")="<< step_map[update_x[i]][update_y[i]]<<"\n";
+                    update_buff_x[update_index]=update_x[i];
+                    update_buff_y[update_index]=update_y[i]-1;
+                    update_index++;
+                }
+            }
+
+            //No Wall to the West
+            if(( (map[update_x[i]][update_y[i]] & B01000100) == (B01000000) ) ||
+               (int)mask*( (map[update_x[i]][update_y[i]] & B01000000) == (B00000000) ) ){
+                if(step_map[update_x[i]-1][update_y[i]] == default_step_value){
+                    step_map[update_x[i]-1][update_y[i]]=step_map[update_x[i]][update_y[i]]+1;
+                    update_flag=true;
+//                    std::cout << "update_index:" << update_index<< "(x,y)=("<<update_x[i]-1<<","<<update_y[i]<<")="<< step_map[update_x[i]][update_y[i]]<<"\n";
+                    update_buff_x[update_index]=update_x[i]-1;
+                    update_buff_y[update_index]=update_y[i];
+                    update_index++;
+                }
+            }
+        }
+    	last_update_num=update_index;
+
+
+    }
+/*
         for(int i_x=0; i_x<MAZESIZE_X; i_x++){
             for(int i_y=0; i_y<MAZESIZE_Y; i_y++){
                 if(step_map[i_x][i_y]==default_step_value)continue;
@@ -185,6 +267,7 @@ void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
         }
 
     }
+            */
 }
 
 void Adachi::SetMapArray(int data[MAZESIZE_X][MAZESIZE_Y]){
