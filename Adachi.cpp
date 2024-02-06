@@ -121,7 +121,7 @@ void Adachi::InitStepMap(int target_x, int target_y){
         step_map[0][0]=0;
     }
 }
-#include <iostream>
+//#include <iostream>
 #include <cstring>
 
 void Adachi::MakeStepMap(int target_x, int target_y, WallMask mask){
